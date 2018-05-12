@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset = "UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toLanding</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Hind" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./src/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="./lib/css/calendar.min.css">
+
+    <link rel="stylesheet" type="text/css" href="./src/css/edit-form.css">
+  </head>
+  <body>
+    <div id="card"></div></br>
+    <script src="./lib/js/react.js"></script>
+    <script src="./lib/js/react-dom.js"></script>
+    <script src="./lib/js/axios.min.js"></script>
+    <script src="./lib/js/react-jsonschema-form.js"></script>
+    <script src="./lib/js/jquery-3.1.1.min.js"></script>
+    <script src="./lib/js/semantic.min.js"></script>
+    <script src = "./lib/js/calendar.min.js"></script>
+
+    <script src = "./dist/0.0.1/edit-card.min.js"></script>
+    <script type="text/javascript">
+      var x = new ProtoGraph.Card.toLanding()
+      x.init({
+        selector: document.querySelector('#card'),
+        data_url: 'dist/0.0.1/sample.json',
+        schema_url: 'dist/0.0.1/schema.json',
+        configuration_url: './dist/0.0.1/configuration_sample.json', //will come from local folder
+        configuration_schema_url: './dist/0.0.1/configuration_schema.json', //will come from local folder
+        ui_schema_url: './dist/0.0.1/ui_schema.json' //will come from local folder
+      })
+      x.renderEdit();
+    </script>
+  </body>
+</html>

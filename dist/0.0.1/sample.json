@@ -1,0 +1,57 @@
+{
+  "data": {
+    "site_header_json_url": "https://p.jagran.com/header.json",
+    "homepage_header_json_url": "https://p.jagran.com/verticals.json",
+    "summary": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "site_name": "JAGRANNEWS",
+    "ref_category_name": "जलजागरण",
+    "streams": [
+      {
+        "id": 665,
+        "name": "16c_Hero",
+        "title": "17_Section_16c_Hero",
+        "datacast_identifier": "10a4626016052f0cd860db05",
+        "url": "https://p.jagran.com/10a4626016052f0cd860db05/index.json",
+        "name_of_stream": "Hero",
+        "ads": {}
+      },
+      {
+        "id": 666,
+        "name": "7c",
+        "title": "17_Section_7c",
+        "datacast_identifier": "e1a466c713c69e2d54a678ad",
+        "url": "https://p.jagran.com/e1a466c713c69e2d54a678ad/index.json",
+        "name_of_stream": "विशेष",
+        "ads": {}
+      },
+      {
+        "id": 667,
+        "name": "4c",
+        "title": "17_Section_4c",
+        "datacast_identifier": "4b375d11d7b9fa975c266ef5",
+        "url": "https://p.jagran.com/4b375d11d7b9fa975c266ef5/index.json",
+        "name_of_stream": "समाचार",
+        "ads": {}
+      },
+      {
+        "id": 668,
+        "name": "3c",
+        "title": "17_Section_3c",
+        "datacast_identifier": "2e2e791df1565ce80abe3f99",
+        "url": "https://p.jagran.com/2e2e791df1565ce80abe3f99/index.json",
+        "name_of_stream": "फ़ीड",
+        "ads": {}
+      },
+      {
+        "id": 669,
+        "name": "2c",
+        "title": "17_Section_2c",
+        "datacast_identifier": "735754825e0cd06d40d7eda8",
+        "url": "https://p.jagran.com/735754825e0cd06d40d7eda8/index.json",
+        "name_of_stream": "फ़ोटोगैलरी",
+        "ads": {}
+      }
+    ]
+  },
+  "mandatory_config": {}
+}

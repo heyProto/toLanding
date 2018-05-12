@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset = "UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toLanding</title>
+    <link href="https://fonts.googleapis.com/css?family=Hind" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="card.min.css">
+  </head>
+  <body style="margin:0px">
+    <div id="toLanding_card"></div>
+    <script src="https://dwln9tzsi7g07.cloudfront.net/lib/protograph-core.min.js"></script>
+    <script src = "card.min.js"></script>
+    <script type="text/javascript">
+      var x = new ProtoGraph.Card.toLanding();
+      function findGetParameter(parameterName) {
+        var result = null,
+          tmp = [],
+          search_url = decodeURIComponent(location.search);
+
+        search_url
+          .substr(1)
+          .split("&")
+          .forEach(function (item) {
+            tmp = item.split("=");
+            if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+          });
+        return result;
+      }
+
+      let view_cast_id = findGetParameter('view_cast_id'),
+      domain_name = (findGetParameter('domain') || ""),
+        base_url = findGetParameter('base_url') || "https://cdn.protograph.pykih.com";
+
+      var ReceiverConsumer = Oasis.Consumer.extend({
+        requests: {
+          receive: function(mode, options) {
+            if(typeof (view_cast_id) !== 'undefined'){
+              var that = this,
+                data_base_path = base_url + "/" + view_cast_id,
+                params;
+
+              params = {
+                selector: document.querySelector('#toCard_card'),
+                data_url: data_base_path + "/data.json"
+              }
+
+              if (options && options.headerJSON) {
+                params['site_configs'] = options.headerJSON;
+              } else {
+                params['site_config_url'] = base_url + '/header.json'
+              }
+              x.init(params);
+              renderWithMode(mode);
+            }
+          }
+        },
+        events: {
+          get_size: function(){
+            var that = this;
+            var intervalId = setInterval(function(){
+              try {
+                clientRect = x.getData();
+                if(clientRect.height){
+                  var height = clientRect.height,
+                    width = clientRect.width;
+                  that.send("resize_frame", {height: height, width: width});
+                  clearInterval(intervalId);
+                }
+              } catch (err) {}
+            }, 10)
+          },
+          change_mode: function(mode){
+            renderWithMode(mode);
+            var that = this;
+            setTimeout(function(){
+              height = x.getData().height;
+              that.send("resize_frame", {height: height});
+            })
+          }
+        }
+      });
+      oasis.connect({
+        consumers: {
+          receive: ReceiverConsumer
+        }
+      });
+
+      function renderWithMode(mode) {
+        switch(mode){
+          case "col16":
+            x.renderCol16();
+            break;
+          case "col4":
+            x.renderCol4();
+            break;
+          default:
+            x.renderCol4();
+            break;
+        }
+      }
+    </script>
+  </body>
+</html>

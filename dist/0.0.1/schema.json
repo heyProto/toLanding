@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "id": "http://example.com/example.json",
+  "properties": {
+    "data": {
+      "id": "/properties/data",
+      "properties": {
+        "site_header_json_url": {
+          "type": "string",
+          "title": "Site header JSON URL"
+        },
+        "homepage_header_json_url": {
+          "type": "string",
+          "title": "Homepage header JSON URL"
+        },
+        "summary": {
+          "type": "string",
+          "title": "Summary"
+        },
+        "site_name": {
+          "type": "string",
+          "title": "Site Name"
+        },
+        "ref_category_name": {
+          "type": "string",
+          "title": "Ref category name"
+        },
+        "streams": {
+          "id": "/properties/data/properties/links",
+          "title": "Strem URL's",
+          "items": {
+            "id": "/properties/data/properties/streams/items",
+            "title": "Strem URL's",
+            "hideTitle": true,
+            "separator": "#",
+            "properties": {
+              "url": {
+                "type": "string",
+                "title": "Stream URL"
+              }
+            },
+            "minItems": 5,
+            "maxItems": 5,
+            "addButtonText": "Add a new link",
+            "type": "object"
+          },
+          "minItems": 5,
+          "maxItems": 5,
+          "type": "array"
+        }
+      },
+      "title": "Card Data",
+      "type": "object"
+    }
+  },
+  "type": "object"
+}

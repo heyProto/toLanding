@@ -1,0 +1,146 @@
+.proto-container {
+  max-width: 1280px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.proto-navbar {
+  padding: 5px 0px;
+  border-bottom: 1px solid #efefef;
+  background: white;
+}
+
+.proto-navbar .round-image {
+  height: 45px;
+  width: 45px;
+  overflow: hidden;
+  border-radius: 50px;
+}
+
+.form-layout .proto-card-form {
+  padding-top: 15px;
+}
+
+.form-layout .proto-card-preview {
+  height: 100vh;
+  padding-top: 15px;
+}
+
+.default-button {
+  border: 1px solid #c5c5c5;
+  display: inline-block;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.default-button i.icon,
+.default-button i.icons {
+  color: #969696;
+  font-size: 1.5em;
+}
+
+.section-title-text {
+  font-size: 1.5em;
+  padding: 0px;
+  padding-bottom: 15px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.proto-pull-right {
+  float: right;
+}
+
+.protograph-menu-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.protograph-disable {
+  pointer-events: none;
+  cursor: default;
+}
+
+.protograph-scroll-form {
+  overflow: auto;
+  height: 100vh;
+}
+
+.ui.styled.fluid.accordion:empty {
+  display: none;
+}
+
+#protograph_embed_editQuiz {
+  position: relative;
+}
+
+.protograph-toQuiz-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+  opacity: 0.6;
+  /*pointer-events: none;*/
+}
+
+.protograph-toQuiz-rerender-quiz {
+  display: none !important;
+  z-index: 1050 !important;
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  pointer-events: all;
+  animation: jiggle 2s infinite ease-in;
+}
+
+.protograph-toQuiz-no-pointerEvents {
+  pointer-events: none;
+}
+
+.protograph-toQuiz-overlay.active,
+.protograph-toQuiz-rerender-quiz.active {
+  display: block !important;
+}
+
+.protograph-loader-container {
+  margin: 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.list-inline {
+  padding-left: 0;
+}
+
+.list-inline > li {
+  list-style: none;
+}
+
+.btn.btn-info.btn-now, .btn.btn-warning.btn-clear {
+  display: none;
+}
+
+.protograph-imagebank-button {
+  float: right;
+  display: none;
+}
+.protograph-new-image {
+  display: none;
+}
+.image-url-container {
+  display: none;
+}
+.protograph-disabled-button {
+  pointer-events: none;
+  opacity: 0.4;
+}
+.protograph-app-holder {
+  display: table;
+  margin: 40px auto;
+}
+/*# sourceMappingURL=master-style.css.map */
