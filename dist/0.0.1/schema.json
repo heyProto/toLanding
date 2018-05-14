@@ -6,28 +6,29 @@
     "data": {
       "id": "/properties/data",
       "properties": {
-        "site_header_json_url": {
+        "site_name": {
           "type": "string",
-          "title": "Site header JSON URL"
+          "title": "Site Name"
         },
-        "homepage_header_json_url": {
+        "home_page_url": {
           "type": "string",
-          "title": "Homepage header JSON URL"
+          "title": "Homepage URL"
+        },
+        "ref_category_html": {
+          "type": "string",
+          "title": "Header HTML"
+        },
+        "show_by_publisher_in_header": {
+          "title": "Show by publisher name",
+          "type": "boolean",
+          "default": true
         },
         "summary": {
           "type": "string",
           "title": "Summary"
         },
-        "site_name": {
-          "type": "string",
-          "title": "Site Name"
-        },
-        "ref_category_name": {
-          "type": "string",
-          "title": "Ref category name"
-        },
         "streams": {
-          "id": "/properties/data/properties/links",
+          "id": "/properties/data/properties/streams",
           "title": "Strem URL's",
           "items": {
             "id": "/properties/data/properties/streams/items",

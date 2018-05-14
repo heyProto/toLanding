@@ -18,6 +18,7 @@ export default class editToLanding extends React.Component {
       optionalConfigSchemaJSON: undefined,
       uiSchemaJSON: {}
     }
+    this.schemaWhiteList = ["ec6c33c26b5d6015bb40"];
     this.toggleMode = this.toggleMode.bind(this);
   }
 
@@ -44,14 +45,39 @@ export default class editToLanding extends React.Component {
         axios.get(this.props.uiSchemaURL)
       ])
       .then(axios.spread((card, schema, opt_config, opt_config_schema, uiSchema) => {
+        // fetchingData: false,
         let stateVars = {
-          fetchingData: false,
           dataJSON: card.data,
           schemaJSON: schema.data,
           optionalConfigJSON: opt_config.data,
           optionalConfigSchemaJSON: opt_config_schema.data,
           uiSchemaJSON: uiSchema.data
         };
+
+        let fetchJSON = [],
+          streams = stateVars.dataJSON.data.streams;
+
+        streams.forEach(e => {
+          fetchJSON.push(axios.get(e.url));
+        });
+
+        axios.all(fetchJSON).then(streams => {
+          let data = {
+            fetchingData: false,
+            streamData: streams.map(e => e.data)
+          },
+            processedStream = [];
+
+          data.streamData.forEach(e => {
+            let d = e.filter(f => this.schemaWhiteList.indexOf(f.schema_id) >= 0);
+            processedStream = processedStream.concat(d);
+          });
+
+          processedStream = processedStream.slice(0, 10);
+          data.streamData = processedStream;
+
+          this.setState(data);
+        });
 
         this.setState(stateVars);
       }));
@@ -231,23 +257,17 @@ export default class editToLanding extends React.Component {
               <div className="twelve wide column proto-card-preview proto-share-card-div">
                 <div className="protograph-menu-container">
                   <div className="ui compact menu">
-                    <a className={`item ${this.state.mode === 'col7' ? 'active' : ''}`}
-                      data-mode='col7'
+                    <a className={`item ${this.state.mode === 'col16' ? 'active' : ''}`}
+                      data-mode='col16'
                       onClick={this.toggleMode}
                     >
-                      col-7
+                      col-16
                     </a>
                     <a className={`item ${this.state.mode === 'col4' ? 'active' : ''}`}
                       data-mode='col4'
                       onClick={this.toggleMode}
                     >
                       col-4
-                    </a>
-                    <a className={`item ${this.state.mode === 'col3' ? 'active' : ''}`}
-                      data-mode='col3'
-                      onClick={this.toggleMode}
-                    >
-                      col-3
                     </a>
                   </div>
                 </div>
@@ -258,6 +278,7 @@ export default class editToLanding extends React.Component {
                     schemaJSON={this.state.schemaJSON}
                     optionalConfigJSON={this.state.optionalConfigJSON}
                     optionalConfigSchemaJSON={this.state.optionalConfigSchemaJSON}
+                    streamData={this.state.streamData}
                   />
                 </div>
               </div>

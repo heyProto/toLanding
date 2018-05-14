@@ -15,7 +15,7 @@ export default class toLanding extends React.Component {
       renderMode: this.props.mode === 'col16' ? 'col4' : 'col2'
     };
 
-    this.schemaWhiteList = ["ec6c33c26b5d6015bb40"]
+    this.schemaWhiteList = [ "ec6c33c26b5d6015bb40" ];
 
     if (this.props.dataJSON) {
       stateVar.fetchingData = false;
@@ -25,6 +25,10 @@ export default class toLanding extends React.Component {
 
     if (this.props.optionalConfigJSON) {
       stateVar.optionalConfigJSON = this.props.optionalConfigJSON;
+    }
+
+    if (this.props.streamData) {
+      stateVar.streamData = this.props.streamData;
     }
 
     this.state = stateVar;
@@ -52,21 +56,16 @@ export default class toLanding extends React.Component {
           siteConfigs: site_configs ? site_configs.data : this.state.siteConfigs
         };
 
-        let fetchJSON = [
-            axios.get(stateVar.dataJSON.data.site_header_json_url),
-            axios.get(stateVar.dataJSON.data.homepage_header_json_url)
-          ],
+        let fetchJSON = [],
           streams = stateVar.dataJSON.data.streams;
 
         streams.forEach(e => {
           fetchJSON.push(axios.get(e.url));
         });
 
-        axios.all(fetchJSON).then(axios.spread((site_json, homepage_json, ...streams) => {
+        axios.all(fetchJSON).then(streams => {
           let data = {
             fetchingData: false,
-            siteJSON: site_json.data,
-            homepageJSON: homepage_json.data.filter(e => e.name === stateVar.dataJSON.data.ref_category_name)[0],
             streamData: streams.map(e => e.data)
           },
           processedStream = [];
@@ -80,12 +79,14 @@ export default class toLanding extends React.Component {
           data.streamData = processedStream;
 
           this.setState(data);
-        }));
+        });
 
         stateVar.dataJSON.data.language = stateVar.siteConfigs.primary_language.toLowerCase();
         stateVar.languageTexts = this.getLanguageTexts(stateVar.dataJSON.data.language);
         this.setState(stateVar);
       }));
+    } else {
+      this.componentDidUpdate();
     }
   }
 
@@ -133,6 +134,109 @@ export default class toLanding extends React.Component {
         }, 0)
       }
     }
+
+    let items = document.querySelectorAll('.single-story-card-display'),
+      scroll_area = document.querySelector('.scroll-area'),
+      length = items.length,
+      width = 0;
+    if (scroll_area) {
+      for(let i = 0; i < length; i++) {
+        width += (items[i].getBoundingClientRect().width + (this.state.renderMode === "col4" ? 10 : 5));
+      }
+      scroll_area.style.width = `${width}px`;
+    }
+
+    if (scroll_area) {
+      var window_items = [],
+        min = 0,
+        max = items.length - 1,
+        navBar = document.querySelector('.cards-display-area'),
+        navBarBBox = navBar.getBoundingClientRect(),
+        stateOfNavbar = [];
+      for (let i = 0; i < max; i++) {
+        let left = items[i].getBoundingClientRect().left,
+          width = items[i].getBoundingClientRect().width;
+
+        if ((left + width) <= navBarBBox.width) {
+          window_items.push(i);
+        }
+      }
+
+      stateOfNavbar.push({
+        window_items: window_items,
+        scrollLeft: 0
+      });
+
+      document.querySelector('#proto-navbar-prev').addEventListener('click', (e) => {
+        // if (mode === "mobile" && stateOfNavbar.length === 1) {
+        //   $('.proto-app-navbar-navigation-bar').css('display', 'none');
+        //   $('.proto-app-navbar-logo-holder').css('display', 'inline-block');
+        //   return;
+        // }
+
+        let popedElement = stateOfNavbar.pop(),
+          currentElement = stateOfNavbar[stateOfNavbar.length - 1],
+          next = document.querySelector('#proto-navbar-next');
+
+        window_items = currentElement.window_items;
+
+        if (next.style.display !== 'inline-block') {
+          next.style.display = 'inline-block';
+        }
+
+        document.querySelector('.cards-display-area').style.overflow = 'scroll';
+        document.querySelector('.cards-display-area').scrollLeft = currentElement.scrollLeft;
+        document.querySelector('.cards-display-area').style.overflow = 'hidden';
+
+        if (stateOfNavbar.length === 1) {
+          document.querySelector('#proto-navbar-prev').style.display = 'none';
+        }
+      });
+
+      document.querySelector('#proto-navbar-next').addEventListener('click', (e) => {
+        let firstElement = window_items[0],
+          lastElement = window_items[window_items.length - 1],
+          new_width = 0,
+          new_window_items = [],
+          prev = document.querySelector('#proto-navbar-prev');
+
+        if (lastElement !== max) {
+          if (prev.style.display !== 'inline-block') {
+            prev.style.display = 'inline-block';
+          }
+
+          for (let i = firstElement + 1; i <= max; i++) {
+            let element = document.querySelector(`.single-story-card-display[data-item="${i}"]`),
+              width = element.getBoundingClientRect().width;
+
+            if ((new_width + width) <= navBarBBox.width) {
+              new_width += width;
+              new_window_items.push(i);
+            } else {
+              break;
+            }
+          }
+          window_items = new_window_items.sort((a, b) => a - b);
+
+          let nextElem = document.querySelector(`.single-story-card-display[data-item="${window_items[0]}"]`),
+            scrollLeft = document.querySelector('.cards-display-area').scrollLeft,
+            newScrollLeft = scrollLeft + nextElem.getBoundingClientRect().left;
+
+          stateOfNavbar.push({
+            window_items: window_items,
+            scrollLeft: newScrollLeft
+          });
+
+          document.querySelector('.cards-display-area').style.overflow = 'scroll';
+          document.querySelector('.cards-display-area').scrollLeft = newScrollLeft;
+          document.querySelector('.cards-display-area').style.overflow = 'hidden';
+
+          if (window_items[window_items.length - 1] === max) {
+            document.querySelector('#proto-navbar-next').style.display = 'none';
+          }
+        }
+      });
+    }
   }
 
   renderCol16() {
@@ -169,25 +273,32 @@ export default class toLanding extends React.Component {
   renderCard() {
     return (
       <div>
-        <div className="row-title">
-          <h1 className="proto-app-navbar-project-name" >
-            <a href={this.state.homepageJSON.url} target="_blank" dangerouslySetInnerHTML={{ __html: this.state.homepageJSON.name_html }} />
-          </h1>
-          {
-            this.state.homepageJSON.show_by_publisher_in_header &&
-            <div className="proto-app-navbar-project-by">By {this.state.dataJSON.data.site_name}</div>
-          }
-        </div>
-        {
-          this.state.dataJSON.data.summary &&
-          <p>{this.state.dataJSON.data.summary}</p>
-        }
+        <button id="proto-navbar-prev" > {"<"} </button>
+        <button id="proto-navbar-next" > {">"} </button>
         <div className="cards-display-area">
           <div className="scroll-area">
+            <div className="single-story-card-display site-details-card" data-item="0">
+              <div className="proto-app-navbar-logo-holder">
+                <h1 className="proto-app-navbar-project-name" >
+                  <a href={this.state.dataJSON.data.home_page_url} target="_blank" dangerouslySetInnerHTML={{ __html: this.state.dataJSON.data.ref_category_html }} />
+                </h1>
+                {
+                  this.state.dataJSON.data.show_by_publisher_in_header &&
+                  <div className="proto-app-navbar-project-by">
+                    <span>By {this.state.dataJSON.data.site_name}</span>
+                  </div>
+                }
+              </div>
+              {
+                this.state.dataJSON.data.summary &&
+                <div className="proto-toLanding-summary">{this.state.dataJSON.data.summary}</div>
+              }
+              <a href={this.state.dataJSON.data.home_page_url} target="_blank" className="proto-toLanding-visit-link">Visit Site <span className="proto-toLanding-go">></span></a>
+            </div>
             {
-              this.state.streamData.map(d => {
+              this.state.streamData.map((d,i) => {
                 return (
-                  <div key={d.view_cast_id} className="single-story-card-display">
+                  <div key={d.view_cast_id} className="single-story-card-display" data-item={i + 1}>
                     <div
                       id={d.view_cast_id}
                       className="proto-app-iframe"
