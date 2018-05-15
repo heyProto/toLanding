@@ -184,3 +184,32 @@ p {
   padding: 5px 10px;
   font-weight: bold;
 }
+.proto-navigation-icons {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 50px;
+  width: 50px;
+  padding-top: 16px;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+  z-index: 10;
+}
+.proto-navigation-icons.proto-app-navbar-left-click-arrow {
+  left: 0px;
+  background: rgba(255,255,255, 0.65);
+  /* background: -webkit-linear-gradient(left,#fff,#ffffff00);
+  background: -o-linear-gradient(left,#fff,#ffffff00);
+  background: -moz-linear-gradient(left,#fff,#ffffff00);
+  background: linear-gradient(to right,#fff,#ffffff00); */
+}
+.proto-navigation-icons.proto-app-navbar-right-click-arrow {
+  right: 0px;
+  background: rgba(255,255,255, 0.65);
+  /* background: -webkit-linear-gradient(left,#ffffff00,#fff);
+  background: -o-linear-gradient(left,#ffffff00,#fff);
+  background: -moz-linear-gradient(left,#ffffff00,#fff);
+  background: linear-gradient(to right,#ffffff00,#fff); */
+}

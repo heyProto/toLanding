@@ -139,20 +139,43 @@ export default class toLanding extends React.Component {
       scroll_area = document.querySelector('.scroll-area'),
       length = items.length,
       width = 0;
+
     if (scroll_area) {
+      let navBar = document.querySelector('.cards-display-area'),
+        navBarBBox = navBar.getBoundingClientRect();
+
       for(let i = 0; i < length; i++) {
         width += (items[i].getBoundingClientRect().width + (this.state.renderMode === "col4" ? 10 : 5));
       }
       scroll_area.style.width = `${width}px`;
+
+      if (width > navBarBBox.width) {
+        var firstElement = document.querySelector('.single-story-card-display[data-item="0"]'),
+          lastElement = document.querySelector(`.single-story-card-display[data-item="${length - 1}"]`),
+          firstElementBBox = firstElement.getBoundingClientRect(),
+          lastElementBBox = lastElement.getBoundingClientRect(),
+          arrows = [];
+
+        if ((firstElementBBox.left !== navBarBBox.left)) {
+          arrows.push('.proto-app-navbar-left-click-arrow');
+        }
+        if (lastElementBBox.left > (navBarBBox.left + navBarBBox.width)) {
+          arrows.push('.proto-app-navbar-right-click-arrow');
+        }
+        arrows.forEach(e => {
+          document.querySelector(e).style.display = 'inline-block'
+        })
+      }
     }
 
     if (scroll_area) {
-      var window_items = [],
+      let window_items = [],
         min = 0,
         max = items.length - 1,
         navBar = document.querySelector('.cards-display-area'),
         navBarBBox = navBar.getBoundingClientRect(),
         stateOfNavbar = [];
+
       for (let i = 0; i < max; i++) {
         let left = items[i].getBoundingClientRect().left,
           width = items[i].getBoundingClientRect().width;
@@ -168,11 +191,6 @@ export default class toLanding extends React.Component {
       });
 
       document.querySelector('#proto-navbar-prev').addEventListener('click', (e) => {
-        // if (mode === "mobile" && stateOfNavbar.length === 1) {
-        //   $('.proto-app-navbar-navigation-bar').css('display', 'none');
-        //   $('.proto-app-navbar-logo-holder').css('display', 'inline-block');
-        //   return;
-        // }
 
         let popedElement = stateOfNavbar.pop(),
           currentElement = stateOfNavbar[stateOfNavbar.length - 1],
@@ -273,8 +291,12 @@ export default class toLanding extends React.Component {
   renderCard() {
     return (
       <div>
-        <button id="proto-navbar-prev" > {"<"} </button>
-        <button id="proto-navbar-next" > {">"} </button>
+        <div className="proto-navigation-icons proto-app-navbar-left-click-arrow" id="proto-navbar-prev">
+          <img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/arrow-left.png" />
+        </div>
+        <div className="proto-navigation-icons proto-app-navbar-right-click-arrow" id="proto-navbar-next">
+          <img src="https://cdn.protograph.pykih.com/Assets/proto-app/img/arrow-right.png" />
+        </div>
         <div className="cards-display-area">
           <div className="scroll-area">
             <div className="single-story-card-display site-details-card" data-item="0">
