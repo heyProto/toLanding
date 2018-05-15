@@ -165,6 +165,7 @@ p {
   background: #efefef;
   padding: 10px;
   margin-right: 10px;
+  box-sizing: border-box;
 }
 .col-4 .site-details-card.single-story-card-display {
   width: 300px;

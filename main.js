@@ -29,6 +29,7 @@ ProtoGraph.Card.toLanding.prototype.renderCol4 = function (data) {
 }
 
 ProtoGraph.Card.toLanding.prototype.render = function () {
+  ReactDOM.unmountComponentAtNode(this.options.selector);
   ReactDOM.render(
     <Card
       dataURL={this.options.data_url}
