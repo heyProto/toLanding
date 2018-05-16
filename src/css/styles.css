@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Bitter|Cabin');
 body {
   min-width: initial !important;
+  overflow: hidden;
 }
 a {
   background: 0 0;
