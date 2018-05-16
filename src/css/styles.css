@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
+@import url('https://fonts.googleapis.com/css?family=Bitter|Cabin');
 body {
   min-width: initial !important;
 }
@@ -166,6 +167,7 @@ p {
   padding: 10px;
   margin-right: 10px;
   box-sizing: border-box;
+  font-family: "cabin";
 }
 .col-4 .site-details-card.single-story-card-display {
   width: 300px;
