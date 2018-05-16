@@ -159,7 +159,7 @@ export default class toLanding extends React.Component {
         if ((firstElementBBox.left !== navBarBBox.left)) {
           arrows.push('.proto-app-navbar-left-click-arrow');
         }
-        if (lastElementBBox.left > (navBarBBox.left + navBarBBox.width)) {
+        if ((lastElementBBox.left + lastElementBBox.width) > (navBarBBox.left + navBarBBox.width)) {
           arrows.push('.proto-app-navbar-right-click-arrow');
         }
         arrows.forEach(e => {
