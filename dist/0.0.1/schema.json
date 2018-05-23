@@ -41,13 +41,13 @@
                 "title": "Stream URL"
               }
             },
-            "minItems": 5,
-            "maxItems": 5,
+            "minItems": 0,
+            "maxItems": 10,
             "addButtonText": "Add a new link",
             "type": "object"
           },
-          "minItems": 5,
-          "maxItems": 5,
+          "minItems": 0,
+          "maxItems": 10,
           "type": "array"
         }
       },
